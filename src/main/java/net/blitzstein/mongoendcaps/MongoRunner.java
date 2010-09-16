@@ -52,6 +52,7 @@ public class MongoRunner {
         //Display the results
         for (Endcap endcap : endcapsDisplay) {
             Set<Product> products = endcap.getProducts();
+            System.out.println("---");
             for (Product product : products) {
                 System.out.println(product);
             }
