@@ -13,7 +13,7 @@ public class ProductFactory {
 
     public Product getProductFromJSONProduct(JSONObject product) throws JSONException {
 
-        Pricing pricing = new Pricing(product.getDouble("ourPrice"), product.getDouble("listPrice"));
+        Pricing pricing = new Pricing(product.optDouble("ourPrice"), product.getDouble("listPrice"));
         Product prod = new Product(product.getLong("productId"), product.getString("productImage"), product.getString("productTitle"), pricing, product.getDouble("powerReviewRating"));
 
         return prod;

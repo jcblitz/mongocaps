@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import net.blitzstein.mongoendcaps.dao.EndcapDaoImpl;
 import net.blitzstein.mongoendcaps.factory.ProductFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,32 +25,19 @@ public class MongoRunner {
 
     public static void main(String[] args) throws UnknownHostException, JSONException {
         ProductFactory productFactory = new ProductFactory();
-
-        Mongo m = new Mongo("localhost", 27017);
-        DB db = m.getDB("test");
-
         List<Endcap> endcapsDisplay = new ArrayList();
+        EndcapDaoImpl daoImpl = new EndcapDaoImpl("localhost", 27017);
 
-        DBCollection dBCollection = db.getCollection("endcaps");
+        DBCollection dBCollection = daoImpl.getEncapCollection();
 
-        BasicDBObject query = new BasicDBObject();
-        query.put("categoryId", 2465428);
-        DBCursor cur = dBCollection.find(query);
-        DBObject record = null;
-        while (cur.hasNext()) {
-            record = cur.next();
-        }
-
-
+        DBObject record = getEndcapsForCategoryId(dBCollection);
         JSONObject endcapRow = new JSONObject(record.toString());
 
         Endcap ec = new Endcap();
 
         JSONArray endcapData = endcapRow.getJSONArray("data");
         for (int i = 0; i < endcapData.length(); i++) {
-//            System.out.println(endcaps.get(i).getClass());
             JSONObject endcap = endcapData.getJSONObject(i);
-//            System.out.println(endcap);
 
             //There is only one key, which is the type of endcap it is
             //This should be restructured, I don't like it
@@ -57,9 +45,9 @@ public class MongoRunner {
             System.out.println("Endcap:" + endcapKey);
 
             Set<Product> products = new HashSet();
-            JSONArray data = endcap.getJSONArray(endcapKey);
-            for (int j = 0; j < data.length(); j++) {
-                products.add(productFactory.getProductFromJSONProduct(data.optJSONObject(j)));
+            JSONArray productRecordData = endcap.getJSONArray(endcapKey);
+            for (int j = 0; j < productRecordData.length(); j++) {
+                products.add(productFactory.getProductFromJSONProduct(productRecordData.getJSONObject(j)));
             }
 
             ec.setProducts(products);
@@ -68,9 +56,18 @@ public class MongoRunner {
 
         }
 
-
-
         System.out.println("Endcaps: " + endcapsDisplay.size());
 
+    }
+
+    private static DBObject getEndcapsForCategoryId(DBCollection dBCollection) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("categoryId", 2465428);
+        DBCursor cur = dBCollection.find(query);
+        DBObject record = null;
+        while (cur.hasNext()) {
+            record = cur.next();
+        }
+        return record;
     }
 }
