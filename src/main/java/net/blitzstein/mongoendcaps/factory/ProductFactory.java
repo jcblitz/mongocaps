@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Jared Blitzstein <blitzsteinj@gsicommerce.com>
+ * @author Jared Blitzstein 
  */
 public class ProductFactory {
 

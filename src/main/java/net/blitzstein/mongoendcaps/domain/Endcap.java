@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  *
- * @author Jared Blitzstein <blitzsteinj@gsicommerce.com>
+ * @author Jared Blitzstein 
  */
 public class Endcap {
     private long categoryId;

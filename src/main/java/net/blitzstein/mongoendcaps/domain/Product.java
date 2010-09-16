@@ -4,7 +4,7 @@ import net.blitzstein.mongoendcaps.domain.Pricing;
 
 /**
  *
- * @author Jared Blitzstein <blitzsteinj@gsicommerce.com>
+ * @author Jared Blitzstein 
  */
 public class Product implements Comparable {
 

@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 
 /**
  *
- * @author Jared Blitzstein <blitzsteinj@gsicommerce.com>
+ * @author Jared Blitzstein 
  */
 public class EndcapDaoImpl {
 

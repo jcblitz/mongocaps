@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 /**
  * A simple proof of concept using MongoDB to store and pull back some product info and convert it to a Java object
- * @author Jared Blitzstein <blitzsteinj@gsicommerce.com>
+ * @author Jared Blitzstein 
  */
 public class MongoRunner {
 
@@ -28,8 +28,6 @@ public class MongoRunner {
         List<Endcap> endcapsDisplay = new ArrayList();
 
         JSONObject endcapRow = getEndcapsForCategoryId(2465428);
-
-        
 
         JSONArray endcapData = endcapRow.getJSONArray("data");
         for (int i = 0; i < endcapData.length(); i++) {

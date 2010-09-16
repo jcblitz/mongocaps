@@ -2,7 +2,7 @@ package net.blitzstein.mongoendcaps.domain;
 
 /**
  *
- * @author Jared Blitzstein <blitzsteinj@gsicommerce.com>
+ * @author Jared Blitzstein 
  */
 public class Pricing {
 
