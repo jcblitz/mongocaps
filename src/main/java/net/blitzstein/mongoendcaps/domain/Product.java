@@ -1,4 +1,6 @@
-package net.blitzstein.mongoendcaps;
+package net.blitzstein.mongoendcaps.domain;
+
+import net.blitzstein.mongoendcaps.domain.Pricing;
 
 /**
  *
@@ -69,5 +71,10 @@ public class Product implements Comparable {
         } else {
             return -1;
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.productId + ", " + this.image + ", " + this.title + ", " + this.pricing + ", " + this.reviewRating;
     }
 }

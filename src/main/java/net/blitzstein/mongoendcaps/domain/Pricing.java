@@ -1,11 +1,11 @@
-
-package net.blitzstein.mongoendcaps;
+package net.blitzstein.mongoendcaps.domain;
 
 /**
  *
  * @author Jared Blitzstein <blitzsteinj@gsicommerce.com>
  */
 public class Pricing {
+
     private double ourPrice;
     private double listPrice;
 
@@ -30,6 +30,8 @@ public class Pricing {
         this.ourPrice = ourPrice;
     }
 
-    
-
+    @Override
+    public String toString() {
+        return "Our price: " + ourPrice + ", List price: " + listPrice;
+    }
 }

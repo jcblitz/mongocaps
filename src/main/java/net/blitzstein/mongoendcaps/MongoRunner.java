@@ -1,8 +1,8 @@
 package net.blitzstein.mongoendcaps;
 
+import net.blitzstein.mongoendcaps.domain.Product;
+import net.blitzstein.mongoendcaps.domain.Endcap;
 import com.mongodb.BasicDBObject;
-import com.mongodb.Mongo;
-import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *
+ * A simple proof of concept using MongoDB to store and pull back some product info and convert it to a Java object
  * @author Jared Blitzstein <blitzsteinj@gsicommerce.com>
  */
 public class MongoRunner {
@@ -26,26 +26,19 @@ public class MongoRunner {
     public static void main(String[] args) throws UnknownHostException, JSONException {
         ProductFactory productFactory = new ProductFactory();
         List<Endcap> endcapsDisplay = new ArrayList();
-        EndcapDaoImpl daoImpl = new EndcapDaoImpl("localhost", 27017);
 
-        DBCollection dBCollection = daoImpl.getEncapCollection();
+        JSONObject endcapRow = getEndcapsForCategoryId(2465428);
 
-        DBObject record = getEndcapsForCategoryId(dBCollection);
-        JSONObject endcapRow = new JSONObject(record.toString());
-
-        Endcap ec = new Endcap();
+        
 
         JSONArray endcapData = endcapRow.getJSONArray("data");
         for (int i = 0; i < endcapData.length(); i++) {
+            Endcap ec = new Endcap();
             JSONObject endcap = endcapData.getJSONObject(i);
 
-            //There is only one key, which is the type of endcap it is
-            //This should be restructured, I don't like it
-            String endcapKey = endcap.keys().next().toString();
-            System.out.println("Endcap:" + endcapKey);
-
             Set<Product> products = new HashSet();
-            JSONArray productRecordData = endcap.getJSONArray(endcapKey);
+            System.out.println("Getting data for: " + endcap.getString("name"));
+            JSONArray productRecordData = endcap.getJSONArray("products");
             for (int j = 0; j < productRecordData.length(); j++) {
                 products.add(productFactory.getProductFromJSONProduct(productRecordData.getJSONObject(j)));
             }
@@ -56,18 +49,28 @@ public class MongoRunner {
 
         }
 
-        System.out.println("Endcaps: " + endcapsDisplay.size());
-
+        //Display the results
+        for (Endcap endcap : endcapsDisplay) {
+            Set<Product> products = endcap.getProducts();
+            for (Product product : products) {
+                System.out.println(product);
+            }
+        }
     }
 
-    private static DBObject getEndcapsForCategoryId(DBCollection dBCollection) {
+    private static JSONObject getEndcapsForCategoryId(long categoryId) throws UnknownHostException, JSONException {
+        EndcapDaoImpl daoImpl = new EndcapDaoImpl("localhost", 27017);
+        DBCollection dBCollection = daoImpl.getEncapCollection();
         BasicDBObject query = new BasicDBObject();
-        query.put("categoryId", 2465428);
+        query.put("categoryId", categoryId);
         DBCursor cur = dBCollection.find(query);
         DBObject record = null;
+
+        //I don't like this, but Hibernate works the same way
         while (cur.hasNext()) {
             record = cur.next();
         }
-        return record;
+
+        return new JSONObject(record.toString());
     }
 }

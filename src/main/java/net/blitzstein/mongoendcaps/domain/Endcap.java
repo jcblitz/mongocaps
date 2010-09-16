@@ -1,5 +1,5 @@
 
-package net.blitzstein.mongoendcaps;
+package net.blitzstein.mongoendcaps.domain;
 
 import java.util.Set;
 
