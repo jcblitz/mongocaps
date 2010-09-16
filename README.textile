@@ -1,0 +1,14 @@
+h1. Mongocaps (MongoDB Endcaps)
+
+h2. Why?
+
+This is a proof of concept of taking fairly static data (doesn't change daily) and moving to a document repository with the hopes of lessening the load on systems that are actually dynamic
+
+h2. Is this production ready?
+
+Not even close, it's a proof of concept. It seems to be working out well so I might beef it up a bit
+
+h2. Anything worth reading?
+
+Nothing by me, but someone else did something very similar to this (I just happened across it by coincidence). It's the same domain too, e-commerce. "Give it a read if you want, I suggest it":http://kylebanker.com/blog/2010/06/07/mongodb-inventory-transactions/
+
